@@ -1,6 +1,17 @@
 # Topic
 
-Pick some subset of the information covered in your annual review article that you are interested in exploring in more detail. 
+Pick some subset of the information covered in your annual review article that you are interested in exploring in more detail.
+
+The topic I want to explore in more detail is the receiver operating characteristic (ROC) curve. It's referenced multiple times throughout the article I chose and seems to have a very important role in all fields, though from what I read it's very commonly used in medicine.
 
 Identify the scope of your user guide - what will you cover? Specific software packages? When to use or not to use a specific technique?
 
+I would probably want to cover:
+
+-   When and why it is used, and why it can be a better tool to use over others
+
+-   The necessary R packages needed to perform this analysis
+
+-   Some example code and/or simulation data
+
+-   A way to interpret the results (example output?)
