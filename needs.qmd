@@ -1,9 +1,13 @@
 # Needs Assessment {.appendix}
 
-What does someone trying to accomplish your chosen task need help with? 
+What does someone trying to accomplish your chosen task need help with?
 
-What parts are likely to be tricky? 
+With the material I've chosen, the task would be to assess statistical evaluations of medical testing, specifically regarding ROC curves. Someone trying to accomplish this task would probably need a good sense of knowledge about what an ROC curve is and does, and why it is helpful in the medical field. They would also need to know and understand the use of biomarkers in biostatistics.
+
+What parts are likely to be tricky?
+
+The parts that are likely to be tricky would likely mostly have to do with interpreting ROC curves and what to do with them. I could also see someone easily getting overwhelmed with the amount of information that goes with evaluating statistical methods.
 
 What resources are already available on this topic that may be helpful? Look for e.g. software vignettes, package documentation, papers about software packages, and so on.
 
-
+First, one of the helpful packages would be ggplot(). Maybe a given, but would be huge in visualizing and analyzing an ROC curve. There are also a few packages with ROC curves, but the big one I found was the plotROC library that would go along with ggplot().
