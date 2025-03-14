@@ -1,5 +1,116 @@
-# User Guide
+# ROC Curves in R
 
-First off, you should change this section title to something more appropriate.
+#### About ROC Curves
 
-Next, well, that's up to you. Good luck!
+The receiver operating curve, or ROC curve, was first developed by electrical engineers in 1941 during the Second World War. The initial function was to detect enemy objects in the battlefields, but was very quickly introduced into the world of Psychology, and later into the field of Biostatistics, where it is used most today. They are most commonly used with biomarkers, which are measurable substances in organisms that can be indicative of disease, environmental pressure, infection, and more.
+
+The ROC curve illustrates the performance of binary data with the plot of the TPR (True Positive Rate) and the FPR (False Positive Rate). It can also be commonly thought of as a way to plot the statistical power of a function, or the probability of a Type I Error. In shorter terms, they are used to assess how appropriate a model is for the data and the results.
+
+#### Terminology
+
+Before we continue, there are some important terms that we should make sure are defined:
+
+-   **Sensitivity (True Positive Rate):** The proportion of true positives correctly identified
+
+-   **Specificity (True Negative Rate):** The proportion of true negatives correctly identified
+
+-   **False Positive Rate (FPR):** The proportion of negatives incorrectly classified as positive
+
+    -   FPR = 1 - Specificity
+
+-   **Area Under Curve (AUC):** A common summary of the measure of the ROC Curve; ranges in values from 0 to 1; values closer to 1 indicate a better model
+
+    -   AUC = 0.5: Random model, no discrimination (essentially guessing)
+
+    -   AUC = 0.7 - 0.8: Acceptable model performance
+
+    -   AUC = 0.8 - 0.9: Excellent model performance
+
+    -   AUC \> 0.9: Outstanding model performance
+
+#### Should I Be Using an ROC Curve? 
+
+With how many models and analysis tools there are in the world, it can be hard to decide which analysis would be best to use. Below is a flowchart to help you make your decision on what would be best:
+
+![](images/flowchartmoment.drawio)
+
+#### R Packages You Need
+
+Once you've decided that an ROC curve is best for testing how appropriate your model is, there are some packages that are necessary for you to install. Make sure your RStudio is updated and running well to be compatible and functional with these packages.
+
+-   **pROC:** Displays and analyzes ROC curves
+
+-   **ggplot2:** Used for creating and customizing graphics and charts
+
+    -   You could also use tidyverse that has multiple R packages in one, including ggplot2 and dplyr, that would be good if you needed more than one package.
+
+To install these packages, you could either go to "Tools", "Install Packages", and then proceed to type the name of the packages and install them. Alternatively, you can just use the install.packages() function.
+
+To use them, make sure to use the library() function (done in example).
+
+#### Example
+
+In order to demonstrate, the example here is using simple simulated data. Let's say we're trying to analyze rates of Cardiovascular Disease (CVD). We want to evaluate the performance of the test in identifying those who have CVD based on predicted probabilities while adjusting for gender and age influence.
+
+1.  For this example, simple simulated data will be used:
+
+    1.  **Disease Status:** Also known as the true outcome; 0 = no disease, 1 = disease
+
+    2.  **Test result (predicted probability):** Predicted risk of having the disease
+
+    3.  **Covariates:** in this scenario, we will use gender and age as covariates, as they both have the potential of affecting how likely one is to develop the disease
+
+2.  For this data, we're going to be using simulated predicted probabilities. This can be done from any model, but for this example we're going to be using logistic regression when simulating the data.
+
+```{r}
+
+#Install packages using the install.packages()
+install.packages("pROC", repos = "https://cran.r-project.org")
+install.packages("ggplot2", repos = "https://cran.r-project.org")
+
+#load the packages into R
+library(ggplot2)
+library(pROC)
+
+#simulate data for 100 patients 
+n <- 100
+
+#simulate true disease status 
+disease_status <- sample(c(0,1), size = n, replace = TRUE)
+
+#Now simulate with the covariates (age [continuous] & gender [categorical])
+age <- sample(30:80, size = n, replace = TRUE)
+gender <- sample(c('Male', 'Female'), size = n, replace = TRUE)
+
+#Logistic regression predicted probabilities, let's assume predicted probability of disease based on age and gender
+predicted_probability <- 1/(1 + exp(-(0.03 * age + 0.5 * (gender == 'Male') - 5)))
+
+#Plot the predicted probabilities 
+plot(age, predicted_probability, main = "Predicted Probabilities vs. Age", xlab = "Age", ylab = "Predicted Probability")
+```
+
+Now, we have a graph of our predicted probabilities. With this, we can use the pROC package to plot the ROC curve.
+
+```{r}
+
+#Create a data frame of the variables created above 
+dis_data <- data.frame(disease_status, predicted_probability, age, gender)
+
+#Create the ROC curve 
+roc_curve <- roc(dis_data$disease_status, dis_data$predicted_probability)
+
+#Plot the ROC Curve you created
+plot(roc_curve, main = 'ROC Curve for CVD Test', col = 'blue')
+
+#Add the AUC 
+text(0.6, 0.2, paste("AUC = ", round(auc(roc_curve), 2)), col="red")
+
+```
+
+Now we have an ROC curve. You can change the colors, titles, and customize it however you would like.
+
+We also have our AUC value here as 0.56. Recall that a value closer to 1 is indicative of a better model. This value could be interpreted a few different ways, but it seems that for this simulated data, the model is only a slight bit better than guessing. It's important to add this value to ensure clarity and aid interpretation in your graph.
+
+#### Conclusion
+
+With this guide, you should be able to create and interpret ROC curves in R for your data. Remember, ROC curves are valuable for testing the performance of your model, but it's always important to evaluate your metrics for optimal performance.
