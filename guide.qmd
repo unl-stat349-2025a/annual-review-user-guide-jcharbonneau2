@@ -28,7 +28,7 @@ Before we continue, there are some important terms that we should make sure are 
 
     -   AUC \> 0.9: Outstanding model performance
 
-#### Should I Be Using an ROC Curve? 
+#### Should I Be Using an ROC Curve?
 
 With how many models and analysis tools there are in the world, it can be hard to decide which analysis would be best to use. Below is a flowchart to help you make your decision on what would be best:
 
@@ -114,3 +114,9 @@ We also have our AUC value here as 0.56. Recall that a value closer to 1 is indi
 #### Conclusion
 
 With this guide, you should be able to create and interpret ROC curves in R for your data. Remember, ROC curves are valuable for testing the performance of your model, but it's always important to evaluate your metrics for optimal performance.
+
+### Sources
+
+@inácio2021
+
+@branscum2008
